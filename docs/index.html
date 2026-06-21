@@ -92,11 +92,13 @@ Priya</textarea>
           <div class="live-cfg" id="liveCfg">
             <select id="liveProvider">
               <option value="anthropic">Anthropic (Claude)</option>
-              <option value="openai">OpenAI-compatible</option>
+              <option value="google">Google (Gemini) — key at aistudio.google.com</option>
+              <option value="openai">OpenAI</option>
+              <option value="custom">Custom (OpenAI-compatible)</option>
             </select>
-            <input id="liveModel" type="text" placeholder="model (optional)" />
             <input id="liveKey" type="password" placeholder="API key — stays in this tab only" />
-            <input id="liveBase" type="text" placeholder="base URL (OpenAI-compatible only)" hidden />
+            <input id="liveModel" type="text" placeholder="Model (default: claude-sonnet-4-6)" />
+            <input id="liveBase" type="text" placeholder="Base URL (e.g. https://api.groq.com/openai/v1)" hidden />
           </div>
           <p class="drawer__hint" id="drawerHint">Demo mode returns realistic, pre-written results — no setup, no key.</p>
         </div>
@@ -126,6 +128,6 @@ Priya</textarea>
       see the <a id="repoLink2" href="https://github.com/aman54kumar/outlook-ai-assistant">README</a> to run it.
     </footer>
 
-    <script type="module" src="demo.js"></script>
+    <script src="demo.js"></script>
   </body>
 </html>
