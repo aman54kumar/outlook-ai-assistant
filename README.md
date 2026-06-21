@@ -4,9 +4,9 @@ A privacy-first AI assistant that lives inside Outlook. It can **summarize a thr
 
 Built with **Office.js** and **runs fully offline** with a local model — no external CDNs, no telemetry, no accounts, no data collection.
 
-> **Live demo (no install):** _add your GitHub Pages URL here_ — try the three features on a sample email right in the browser.
+> **Live demo (no install):** [aman54kumar.github.io/outlook-ai-assistant](https://aman54kumar.github.io/outlook-ai-assistant/) — try the three features on a sample email right in the browser.
 
-[outlook-ai-assistant.png](https://postimg.cc/WdYWtmys)
+![AI Mail Assistant task pane](https://i.postimg.cc/WdYWtmys/outlook-ai-assistant.png)
 
 ---
 
