@@ -793,11 +793,15 @@ async function run() {
   hideResult();
   setBusy(true);
   try {
-    // For reply: read the full thread (including quoted messages) so the AI
-    // has full conversation context. For other actions: stripped body only.
-    const body = state.action === "reply"
-      ? await getBodyWithThread()
-      : await getBody();
+    // For summarize: if the user pasted custom text, use that instead of the email.
+    // For reply: read the full thread for conversation context.
+    // For all others: stripped email body.
+    const pastedText = state.action === "summarize" ? ($("pasteText").value || "").trim() : "";
+    const body = pastedText
+      ? pastedText
+      : state.action === "reply"
+        ? await getBodyWithThread()
+        : await getBody();
     if (!body) throw new Error("There's no text in this email yet.");
 
     const payload = { body, subject: await getSubject(), from: getFrom() };
@@ -860,6 +864,7 @@ function setAction(action) {
   );
   $("intentField").hidden  = action !== "reply";
   $("toneField").hidden    = action !== "tone";
+  $("pasteField").hidden   = action !== "summarize";
   $("runText").textContent = RUN_LABEL[action];
   $("sourceWrap").hidden   = action === "tone";
   // Update the Insert/Replace button label

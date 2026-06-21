@@ -14,6 +14,8 @@
   --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
 }
 * { box-sizing: border-box; }
+/* flex parents override the UA [hidden] display:none — restore it explicitly */
+[hidden] { display: none !important; }
 body {
   margin: 0; font-family: var(--font); color: var(--ink);
   background: var(--canvas); line-height: 1.5;

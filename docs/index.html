@@ -26,11 +26,11 @@
     </header>
 
     <main class="stage">
-      <!-- Left: a mock email you can edit -->
+      <!-- Left: editable email / text input -->
       <section class="compose" aria-label="Sample email">
-        <div class="compose__head">Sample email — edit it, or paste your own</div>
-        <div class="compose__field"><b>From</b><span id="fromLine">Priya Nair &lt;priya@northwind.example&gt;</span></div>
-        <div class="compose__field"><b>Subject</b><span id="subjLine">Re: Onboarding portal — scope &amp; timeline</span></div>
+        <div class="compose__head" id="composeHead">Sample email — edit it, or paste your own</div>
+        <div class="compose__field" id="composeFromRow"><b>From</b><span id="fromLine">Priya Nair &lt;priya@northwind.example&gt;</span></div>
+        <div class="compose__field" id="composeSubjRow"><b>Subject</b><span id="subjLine">Re: Onboarding portal — scope &amp; timeline</span></div>
         <textarea id="emailBody" class="compose__body" spellcheck="false">Hi,
 
 Thanks for the proposal. A few things before we sign off:

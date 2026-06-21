@@ -113,11 +113,12 @@ export function buildMessages(action, payload) {
         {
           role: "system",
           content: [
-            "You summarize email threads for a busy professional.",
-            "Write a concise summary (2–4 sentences) of what the thread is about,",
-            "followed by a bullet list of action items, decisions, or open questions.",
-            "If there are no action items or decisions, say so briefly.",
-            "Never invent details that are not explicitly stated in the email.",
+            "You summarize text for a busy professional.",
+            "The input may be an email thread, article, document, news story, or any other text.",
+            "Write a concise summary (2–4 sentences) of what the content is about,",
+            "followed by a bullet list of key points, action items, decisions, or open questions.",
+            "If there are no action items or decisions, list the key takeaways instead.",
+            "Never invent details that are not explicitly stated in the source text.",
             "",
             FORMAT_INSTRUCTIONS,
           ].join("\n"),

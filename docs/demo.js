@@ -95,11 +95,12 @@ function buildMessages(action, payload) {
         {
           role: "system",
           content: [
-            "You summarize email threads for a busy professional.",
-            "Write a concise summary (2–4 sentences) of what the thread is about,",
-            "followed by a bullet list of action items, decisions, or open questions.",
-            "If there are no action items or decisions, say so briefly.",
-            "Never invent details that are not explicitly stated in the email.",
+            "You summarize text for a busy professional.",
+            "The input may be an email thread, article, document, news story, or any other text.",
+            "Write a concise summary (2–4 sentences) of what the content is about,",
+            "followed by a bullet list of key points, action items, decisions, or open questions.",
+            "If there are no action items or decisions, list the key takeaways instead.",
+            "Never invent details that are not explicitly stated in the source text.",
             "",
             FORMAT_INSTRUCTIONS,
           ].join("\n"),
@@ -393,15 +394,65 @@ function init() {
   setMode("demo");
 }
 
+const SAMPLE_EMAIL =
+`Hi,
+
+Thanks for the proposal. A few things before we sign off:
+
+1. The portal needs SSO with our Azure AD on day one, not phase two.
+2. We'd like the vendor dashboard, but role-based access is a hard requirement — finance shouldn't see HR records.
+3. Can you still hit the March 15 go-live if SSO moves up?
+
+Also, our security team will want a short data-flow note. Can you send one this week?
+
+Thanks,
+Priya`;
+
+const SAMPLE_ARTICLE =
+`OpenAI's GPT-5.5 model, released in June 2026, introduces a new "thinking budget" mechanism that lets
+developers cap how much reasoning compute the model spends per request. Unlike its predecessors, GPT-5.5
+dynamically adjusts chain-of-thought depth based on query complexity, reducing latency by up to 40% on
+routine tasks while preserving accuracy on hard reasoning benchmarks.
+
+Key highlights:
+- Context window expanded to 512k tokens
+- Native multimodal input: text, images, PDFs, and audio
+- Improved instruction-following on long-form structured output
+- On-device fine-tuning API for enterprise customers (limited preview)
+
+The model scores 92.3 on MMLU-Pro and 87.1 on HumanEval, placing it ahead of previous frontier models
+on most academic benchmarks. Pricing is set at $2.50 per million input tokens and $10 per million output
+tokens — a 20% reduction from GPT-5.4.`;
+
 function setAction(action) {
   state.action = action;
   document.querySelectorAll(".tab").forEach((t) =>
     t.classList.toggle("is-active", t.dataset.action === action)
   );
   $("intentField").hidden = action !== "reply";
-  $("toneField").hidden = action !== "tone";
+  $("toneField").hidden   = action !== "tone";
   $("runText").textContent =
-    action === "summarize" ? "Summarize thread" : action === "reply" ? "Draft reply" : "Rewrite tone";
+    action === "summarize" ? "Summarize" : action === "reply" ? "Draft reply" : "Rewrite tone";
+
+  // Summarize: hide email metadata, show generic placeholder + sample article
+  const isSummarize = action === "summarize";
+  $("composeFromRow").hidden = isSummarize;
+  $("composeSubjRow").hidden = isSummarize;
+  $("composeHead").textContent = isSummarize
+    ? "Paste any text to summarize — email, article, document…"
+    : "Sample email — edit it, or paste your own";
+  $("emailBody").placeholder = isSummarize
+    ? "Paste any text here — an email, article, news story, document…"
+    : "";
+
+  // Swap sample content when switching modes so the demo is immediately usable
+  const currentBody = $("emailBody").value.trim();
+  if (isSummarize && (currentBody === SAMPLE_EMAIL.trim() || currentBody === "")) {
+    $("emailBody").value = SAMPLE_ARTICLE;
+  } else if (!isSummarize && (currentBody === SAMPLE_ARTICLE.trim() || currentBody === "")) {
+    $("emailBody").value = SAMPLE_EMAIL;
+  }
+
   hideResult();
 }
 
@@ -449,10 +500,11 @@ async function liveResult() {
   const provider = $("liveProvider").value;
   const customBase = $("liveBase").value.trim();
 
+  const isSummarize = state.action === "summarize";
   const payload = {
     body: $("emailBody").value,
-    subject: $("subjLine").textContent,
-    from: $("fromLine").textContent,
+    subject: isSummarize ? "" : $("subjLine").textContent,
+    from:    isSummarize ? "" : $("fromLine").textContent,
   };
   if (state.action === "reply") payload.intent = $("intent").value.trim();
   if (state.action === "tone") payload.tone = state.tone;

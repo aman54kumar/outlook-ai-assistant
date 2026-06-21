@@ -39,6 +39,12 @@
           <div class="tones" id="tones"></div>
         </div>
 
+        <!-- Summarize: optional custom text (overrides the email body when filled) -->
+        <div class="field" id="pasteField" hidden>
+          <label for="pasteText">Paste any text to summarize <span class="muted">(article, document… overrides the email)</span></label>
+          <textarea id="pasteText" class="paste-area" rows="5" placeholder="Paste an article, document, news story, or any text here…"></textarea>
+        </div>
+
         <details class="source" id="sourceWrap">
           <summary>Reading from this email</summary>
           <p class="source__body" id="sourcePreview">Loading…</p>
