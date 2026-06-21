@@ -94,7 +94,7 @@ If you'd rather not use the script, follow Microsoft's guide for your platform a
 
 ## Try it without Outlook
 
-The `/demo` folder is a static page that mirrors the pane. In **Demo mode** it returns realistic pre-written results instantly — no setup. Switch to **Live** to call a provider with your own key (kept in the browser tab only). Host it free on GitHub Pages by enabling Pages from the repository root.
+The `/docs` folder is a static page that mirrors the pane. In **Demo mode** it returns realistic pre-written results instantly — no setup. Switch to **Live** to call a provider with your own key (kept in the browser tab only). Hosted on GitHub Pages (source: `/docs`).
 
 ## Project structure
 
@@ -110,7 +110,7 @@ outlook-ai-assistant/
 │   └── ai/
 │       ├── prompts.js        # prompt builders + TONE_GUIDES (11 tones)
 │       └── providers.js      # Ollama / OpenAI-compatible / Anthropic / Google behind one call
-├── demo/                     # zero-setup browser demo (GitHub Pages)
+├── docs/                     # zero-setup browser demo (GitHub Pages — source: /docs)
 └── assets/                   # icons
 ```
 
