@@ -6,8 +6,7 @@ Built with **Office.js** and **runs fully offline** with a local model — no ex
 
 > **Live demo (no install):** _add your GitHub Pages URL here_ — try the three features on a sample email right in the browser.
 
-<!-- Add a screenshot or short GIF of the task pane here once you've sideloaded it:
-     ![AI Mail Assistant task pane](docs/screenshot.png) -->
+[outlook-ai-assistant.png](https://postimg.cc/WdYWtmys)
 
 ---
 
