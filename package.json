@@ -1,0 +1,37 @@
+{
+  "name": "outlook-ai-assistant",
+  "version": "1.0.0",
+  "description": "A privacy-first AI assistant for Outlook. Summarize threads, draft replies, and adjust tone — running on a local model (Ollama) by default, with an optional cloud toggle. Built with Office.js.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "setup": "office-addin-dev-certs install",
+    "start": "node server/server.js",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "sideload": "office-addin-debugging start manifest.xml desktop",
+    "stop": "office-addin-debugging stop manifest.xml"
+  },
+  "dependencies": {
+    "@microsoft/office-js": "^1.1.110",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "office-addin-debugging": "^6.0.0",
+    "office-addin-dev-certs": "^1.13.0",
+    "office-addin-manifest": "^1.13.0"
+  },
+  "keywords": [
+    "outlook",
+    "office-addin",
+    "office-js",
+    "ai",
+    "llm",
+    "ollama",
+    "email",
+    "productivity",
+    "local-first"
+  ]
+}

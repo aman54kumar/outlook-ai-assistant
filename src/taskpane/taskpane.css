@@ -1,0 +1,233 @@
+:root {
+  --accent: #0d6e6e;
+  --accent-press: #0a5757;
+  --ink: #1b1f24;
+  --muted: #5b6472;
+  --line: #e4e7eb;
+  --surface: #ffffff;
+  --canvas: #f5f6f8;
+  --local: #0d6e6e;
+  --cloud: #b9701f;
+  --danger: #b3261e;
+  --radius: 8px;
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+/* The browser's built-in [hidden] rule (display:none) can be overridden by
+   ID/class selectors that set display:flex/block. Force it to always win. */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--canvas);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.boot {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: var(--muted);
+}
+
+.pane { display: flex; flex-direction: column; min-height: 100%; }
+
+.pane__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.pane__title { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+
+.mark {
+  width: 16px; height: 16px; border-radius: 4px;
+  background: linear-gradient(135deg, var(--accent), #14a3a3);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+/* Signature element: a chip that always shows where the model is running */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--canvas);
+  font: inherit; font-size: 12px; color: var(--ink); cursor: pointer;
+}
+.chip__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--local); }
+.chip.is-cloud .chip__dot { background: var(--cloud); }
+.chip:hover { border-color: #cfd4da; }
+
+.tabs { display: flex; gap: 2px; padding: 8px 10px 0; background: var(--surface); }
+.tab {
+  flex: 1; padding: 8px 4px; border: 0; background: transparent;
+  font: inherit; color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab.is-active { color: var(--ink); font-weight: 600; border-bottom-color: var(--accent); }
+
+.panel { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; color: var(--muted); }
+.field input {
+  padding: 9px 10px; border: 1px solid var(--line); border-radius: var(--radius);
+  font: inherit; background: var(--surface);
+}
+.field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.muted { color: var(--muted); }
+
+.tones { display: flex; flex-wrap: wrap; gap: 5px; }
+.tone {
+  padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); font: inherit; font-size: 12px; cursor: pointer; color: var(--ink);
+}
+.tone.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.source { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.source summary { padding: 9px 12px; cursor: pointer; font-size: 12px; color: var(--muted); }
+.source__body {
+  margin: 0; padding: 0 12px 12px; font-size: 13px; color: var(--ink);
+  white-space: pre-wrap; max-height: 130px; overflow: auto;
+}
+
+.run {
+  padding: 11px 14px; border: 0; border-radius: var(--radius);
+  background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+}
+.run:hover { background: var(--accent-press); }
+.run:disabled { opacity: 0.55; cursor: progress; }
+.run:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.result { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+.result__bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px 8px 12px; border-bottom: 1px solid var(--line); background: var(--canvas);
+}
+.result__tag { font-size: 12px; color: var(--muted); }
+.result__actions { display: flex; gap: 4px; }
+.result__body {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+/* Styles for the HTML that markdownToHtml() produces in the result panel */
+.result__body p { margin: 0 0 0.7em; }
+.result__body p:last-child { margin-bottom: 0; }
+.result__body ul, .result__body ol { margin: 0 0 0.7em; padding-left: 1.4em; }
+.result__body li { margin-bottom: 0.2em; }
+.result__body strong, .result__body b { font-weight: 600; color: var(--ink); }
+.result__body em, .result__body i { font-style: italic; }
+.result__body u { text-decoration: underline; }
+.result__body blockquote {
+  border-left: 3px solid var(--line);
+  margin: 0.5em 0 0.5em 0.8em;
+  padding-left: 0.8em;
+  color: var(--muted);
+  font-style: italic;
+}
+.result__body h1 {
+  font-size: 16px; font-weight: 700; margin: 1em 0 0.4em; color: var(--ink);
+}
+.result__body h2 {
+  font-size: 14px; font-weight: 700; margin: 0.9em 0 0.35em; color: var(--ink);
+}
+.result__body h3 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0.9em 0 0.35em;
+}
+.result__body h1:first-child,
+.result__body h2:first-child,
+.result__body h3:first-child { margin-top: 0; }
+.result__body a { color: var(--accent); text-decoration: underline; }
+
+.ghost {
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font: inherit; font-size: 12px; padding: 5px 10px; border-radius: 6px; cursor: pointer;
+}
+.ghost:hover { border-color: #cfd4da; }
+.ghost--accent { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+.note { font-size: 12px; color: var(--muted); margin: 0; }
+.note.is-error { color: var(--danger); }
+
+.drawer {
+  margin-top: auto; background: var(--surface); border-top: 1px solid var(--line);
+  max-height: 70vh; overflow-y: auto;
+}
+.drawer__inner { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.drawer__row { display: flex; align-items: center; justify-content: space-between; }
+.drawer__label { font-size: 13px; }
+
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.seg--full { display: flex; width: 100%; border-radius: var(--radius); }
+.seg--full .seg__opt { flex: 1; border-radius: 0; padding: 6px 6px; font-size: 12px; }
+.seg__opt { padding: 6px 14px; border: 0; background: var(--surface); font: inherit; font-size: 13px; cursor: pointer; color: var(--muted); }
+.seg__opt.is-on { background: var(--accent); color: #fff; }
+
+.drawer__hint { font-size: 12px; color: var(--muted); margin: 0; }
+.drawer__close { width: 100%; }
+
+/* Cloud settings form */
+#cloudSettings, #localSettings { display: flex; flex-direction: column; gap: 10px; }
+
+.input-row { display: flex; gap: 6px; }
+.input-row input { flex: 1; min-width: 0; }
+.ghost--icon {
+  padding: 0 9px; display: flex; align-items: center; flex-shrink: 0;
+  color: var(--muted);
+}
+.ghost--icon:hover { color: var(--ink); }
+
+.key-status {
+  font-size: 12px; margin: 0;
+}
+.key-status--ok   { color: #1a8a4a; }
+.key-status--warn { color: var(--muted); }
+
+.key-note {
+  font-size: 11px; color: var(--muted); margin: 0; line-height: 1.5;
+}
+.key-note code { font-size: 11px; background: var(--canvas); padding: 1px 4px; border-radius: 3px; }
+
+/* Label row with inline action (e.g. "Base URL  [Reset to default]") */
+.field-labelrow {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.field-labelrow label { flex: 1; }
+
+/* Inline link-style button (Reset to default, etc.) */
+.link-btn {
+  font: inherit; font-size: 11px; color: var(--accent);
+  background: none; border: none; padding: 0;
+  cursor: pointer; text-decoration: underline; white-space: nowrap;
+}
+.link-btn:hover { color: var(--accent-press); }
+
+/* Model list fetch status */
+.model-status {
+  font-size: 11px; white-space: nowrap;
+}
+.model-status--loading { color: var(--muted); font-style: italic; }
+.model-status--ok      { color: #1a8a4a; }
+.model-status--err     { color: var(--danger); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .result { animation: rise 0.18s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Mail Assistant</title>
+    <script src="/vendor/office-js/office.js"></script>
+    <link rel="stylesheet" href="taskpane.css" />
+  </head>
+  <body>
+    <main class="pane" id="pane" hidden>
+      <header class="pane__head">
+        <div class="pane__title">
+          <span class="mark" aria-hidden="true"></span>
+          AI Mail Assistant
+        </div>
+        <button class="chip" id="runtimeChip" type="button" title="Where the AI runs. Click to configure.">
+          <span class="chip__dot"></span>
+          <span id="runtimeLabel">Local</span>
+        </button>
+      </header>
+
+      <nav class="tabs" role="tablist">
+        <button class="tab is-active" data-action="summarize" role="tab">Summarize</button>
+        <button class="tab" data-action="reply" role="tab">Reply</button>
+        <button class="tab" data-action="tone" role="tab">Tone</button>
+      </nav>
+
+      <section class="panel">
+        <!-- Reply: optional intent -->
+        <div class="field" id="intentField" hidden>
+          <label for="intent">What should the reply say? <span class="muted">(optional)</span></label>
+          <input id="intent" type="text" placeholder="e.g. accept the meeting, ask for Friday instead" />
+        </div>
+
+        <!-- Tone: tone picker -->
+        <div class="field" id="toneField" hidden>
+          <label>Rewrite my draft as</label>
+          <div class="tones" id="tones"></div>
+        </div>
+
+        <details class="source" id="sourceWrap">
+          <summary>Reading from this email</summary>
+          <p class="source__body" id="sourcePreview">Loading…</p>
+        </details>
+
+        <button class="run" id="runBtn" type="button">
+          <span id="runText">Summarize thread</span>
+        </button>
+
+        <div class="result" id="result" hidden>
+          <div class="result__bar">
+            <span class="result__tag" id="resultTag">Result</span>
+            <div class="result__actions">
+              <button class="ghost" id="copyBtn" type="button">Copy</button>
+              <button class="ghost ghost--accent" id="insertBtn" type="button" hidden>Insert</button>
+            </div>
+          </div>
+          <div class="result__body" id="resultBody"></div>
+        </div>
+
+        <p class="note" id="note" hidden></p>
+      </section>
+
+      <!-- Runtime settings drawer -->
+      <div class="drawer" id="drawer" hidden>
+        <div class="drawer__inner">
+
+          <!-- Local / Cloud toggle -->
+          <div class="drawer__row">
+            <span class="drawer__label">AI runs on</span>
+            <div class="seg" id="providerSeg">
+              <button class="seg__opt is-on" data-provider="local">Local</button>
+              <button class="seg__opt" data-provider="cloud">Cloud</button>
+            </div>
+          </div>
+
+          <!-- ── LOCAL SETTINGS ── -->
+          <div id="localSettings">
+            <p class="drawer__hint">Your text goes to a local model and never leaves this machine.</p>
+            <div class="field">
+              <label for="ollamaModelInput">Model <span class="muted">(optional)</span></label>
+              <input id="ollamaModelInput" type="text" placeholder="llama3.2" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="ollamaUrlInput">Ollama URL <span class="muted">(optional)</span></label>
+              <input id="ollamaUrlInput" type="text" placeholder="http://localhost:11434" autocomplete="off" />
+            </div>
+          </div>
+
+          <!-- ── CLOUD SETTINGS ── -->
+          <div id="cloudSettings" hidden>
+            <p class="drawer__hint">Your text is sent to the selected cloud provider.</p>
+
+            <div class="field">
+              <label>Provider</label>
+              <div class="seg seg--full" id="cloudProviderSeg">
+                <button class="seg__opt is-on" data-cloud-provider="openai">OpenAI</button>
+                <button class="seg__opt" data-cloud-provider="anthropic">Anthropic</button>
+                <button class="seg__opt" data-cloud-provider="google">Google</button>
+                <button class="seg__opt" data-cloud-provider="custom">Custom</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="apiKeyInput">API Key</label>
+              <div class="input-row">
+                <input id="apiKeyInput" type="password" placeholder="Paste your key…" autocomplete="off" />
+                <button class="ghost ghost--icon" id="toggleKeyBtn" type="button" title="Show / hide key">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="8" cy="8" r="3"/><path d="M1 8C2.5 4 5 2 8 2s5.5 2 7 6c-1.5 4-4 6-7 6s-5.5-2-7-6z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-labelrow">
+                <label for="cloudModelInput">Model</label>
+                <span class="model-status" id="modelStatus"></span>
+              </div>
+              <input id="cloudModelInput" type="text" list="modelList" autocomplete="off" />
+              <datalist id="modelList"></datalist>
+            </div>
+
+            <div class="field">
+              <div class="field-labelrow">
+                <label for="cloudBaseUrlInput">Base URL</label>
+                <button class="link-btn" id="baseUrlReset" type="button" hidden>Reset to default</button>
+              </div>
+              <input id="cloudBaseUrlInput" type="text" autocomplete="off" />
+            </div>
+
+            <p class="key-note" id="googleNote" hidden>
+              Get a key at <strong>aistudio.google.com</strong> (free tier available).
+            </p>
+
+            <p class="key-status" id="cloudStatus"></p>
+            <p class="key-note">Keys are saved locally in this browser only.</p>
+          </div>
+
+          <button class="ghost drawer__close" id="drawerClose" type="button">Done</button>
+        </div>
+      </div>
+    </main>
+
+    <div class="boot" id="boot">Loading the assistant…</div>
+
+    <script type="module" src="taskpane.js"></script>
+  </body>
+</html>

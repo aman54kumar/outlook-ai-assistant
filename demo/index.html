@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Mail Assistant — live demo</title>
+    <link rel="stylesheet" href="demo.css" />
+  </head>
+  <body>
+    <div class="top">
+      <div class="brand"><span class="mark"></span> AI Mail Assistant</div>
+      <a id="repoLink" href="https://github.com/aman54kumar/outlook-ai-assistant" target="_blank" rel="noopener">View source on GitHub →</a>
+    </div>
+
+    <header class="hero">
+      <h1>An AI assistant that lives in your <span class="em">inbox</span> — and keeps your email on your machine.</h1>
+      <p>
+        Summarize a thread, draft a reply, or fix the tone of a message without leaving Outlook.
+        Runs on a local model by default, so sensitive email never leaves the device.
+      </p>
+      <ul class="points">
+        <li><span class="dot"></span> Local-first (Ollama)</li>
+        <li><span class="dot"></span> Optional cloud toggle</li>
+        <li><span class="dot"></span> Built on Office.js</li>
+      </ul>
+    </header>
+
+    <main class="stage">
+      <!-- Left: a mock email you can edit -->
+      <section class="compose" aria-label="Sample email">
+        <div class="compose__head">Sample email — edit it, or paste your own</div>
+        <div class="compose__field"><b>From</b><span id="fromLine">Priya Nair &lt;priya@northwind.example&gt;</span></div>
+        <div class="compose__field"><b>Subject</b><span id="subjLine">Re: Onboarding portal — scope &amp; timeline</span></div>
+        <textarea id="emailBody" class="compose__body" spellcheck="false">Hi,
+
+Thanks for the proposal. A few things before we sign off:
+
+1. The portal needs SSO with our Azure AD on day one, not phase two.
+2. We'd like the vendor dashboard, but role-based access is a hard requirement — finance shouldn't see HR records.
+3. Can you still hit the March 15 go-live if SSO moves up?
+
+Also, our security team will want a short data-flow note. Can you send one this week?
+
+Thanks,
+Priya</textarea>
+      </section>
+
+      <!-- Right: the pane (same UI as inside Outlook) -->
+      <section class="pane" aria-label="AI assistant">
+        <div class="pane__head">
+          <div class="pane__title"><span class="mark"></span> AI Assistant</div>
+          <button class="chip" id="runtimeChip" type="button"><span class="chip__dot"></span><span id="runtimeLabel">Demo</span></button>
+        </div>
+
+        <nav class="tabs">
+          <button class="tab is-active" data-action="summarize">Summarize</button>
+          <button class="tab" data-action="reply">Reply</button>
+          <button class="tab" data-action="tone">Tone</button>
+        </nav>
+
+        <div class="panel">
+          <div class="field" id="intentField" hidden>
+            <label for="intent">What should the reply say? <span style="color:var(--muted)">(optional)</span></label>
+            <input id="intent" type="text" placeholder="e.g. confirm March 15, send the data-flow note Friday" />
+          </div>
+          <div class="field" id="toneField" hidden>
+            <label>Rewrite the email as</label>
+            <div class="tones" id="tones"></div>
+          </div>
+
+          <button class="run" id="runBtn" type="button"><span id="runText">Summarize thread</span></button>
+
+          <div class="result" id="result" hidden>
+            <div class="result__bar">
+              <span class="result__tag" id="resultTag">Result</span>
+              <button class="ghost" id="copyBtn" type="button">Copy</button>
+            </div>
+            <div class="result__body" id="resultBody"></div>
+          </div>
+
+          <p class="note" id="note" hidden></p>
+        </div>
+
+        <div class="drawer">
+          <div class="drawer__row">
+            <span>Mode</span>
+            <div class="seg" id="modeSeg">
+              <button class="seg__opt is-on" data-mode="demo">Demo</button>
+              <button class="seg__opt" data-mode="live">Live (your key)</button>
+            </div>
+          </div>
+          <div class="live-cfg" id="liveCfg">
+            <select id="liveProvider">
+              <option value="anthropic">Anthropic (Claude)</option>
+              <option value="openai">OpenAI-compatible</option>
+            </select>
+            <input id="liveModel" type="text" placeholder="model (optional)" />
+            <input id="liveKey" type="password" placeholder="API key — stays in this tab only" />
+            <input id="liveBase" type="text" placeholder="base URL (OpenAI-compatible only)" hidden />
+          </div>
+          <p class="drawer__hint" id="drawerHint">Demo mode returns realistic, pre-written results — no setup, no key.</p>
+        </div>
+      </section>
+    </main>
+
+    <section class="how">
+      <h2>How it works</h2>
+      <div class="how__grid">
+        <div class="how__card">
+          <h3>Private by default</h3>
+          <p>In the real add-in, requests go to a local <code>Ollama</code> model through a server on your own machine. The cloud key, if you use one, never reaches the browser.</p>
+        </div>
+        <div class="how__card">
+          <h3>Bring your own model</h3>
+          <p>One toggle switches between local and a cloud provider. The provider layer supports <code>Ollama</code>, OpenAI-compatible endpoints, and <code>Anthropic</code>.</p>
+        </div>
+        <div class="how__card">
+          <h3>Native to Outlook</h3>
+          <p>Built with <code>Office.js</code>. It reads the open email, and inserts results straight into your draft while composing.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      This page is a front-end demo. The full local-first version runs inside Outlook —
+      see the <a id="repoLink2" href="https://github.com/aman54kumar/outlook-ai-assistant">README</a> to run it.
+    </footer>
+
+    <script type="module" src="demo.js"></script>
+  </body>
+</html>
