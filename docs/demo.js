@@ -347,6 +347,37 @@ const CANNED = {
 
 const $ = (id) => document.getElementById(id);
 const state = { action: "summarize", tone: "Professional", mode: "demo" };
+const wait  = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const SAMPLE_EMAIL =
+`Hi,
+
+Thanks for the proposal. A few things before we sign off:
+
+1. The portal needs SSO with our Azure AD on day one, not phase two.
+2. We'd like the vendor dashboard, but role-based access is a hard requirement — finance shouldn't see HR records.
+3. Can you still hit the March 15 go-live if SSO moves up?
+
+Also, our security team will want a short data-flow note. Can you send one this week?
+
+Thanks,
+Priya`;
+
+const SAMPLE_ARTICLE =
+`OpenAI's GPT-5.5 model, released in June 2026, introduces a new "thinking budget" mechanism that lets
+developers cap how much reasoning compute the model spends per request. Unlike its predecessors, GPT-5.5
+dynamically adjusts chain-of-thought depth based on query complexity, reducing latency by up to 40% on
+routine tasks while preserving accuracy on hard reasoning benchmarks.
+
+Key highlights:
+- Context window expanded to 512k tokens
+- Native multimodal input: text, images, PDFs, and audio
+- Improved instruction-following on long-form structured output
+- On-device fine-tuning API for enterprise customers (limited preview)
+
+The model scores 92.3 on MMLU-Pro and 87.1 on HumanEval, placing it ahead of previous frontier models
+on most academic benchmarks. Pricing is set at $2.50 per million input tokens and $10 per million output
+tokens — a 20% reduction from GPT-5.4.`;
 
 init();
 
@@ -393,36 +424,6 @@ function init() {
   setAction("summarize");
   setMode("demo");
 }
-
-const SAMPLE_EMAIL =
-`Hi,
-
-Thanks for the proposal. A few things before we sign off:
-
-1. The portal needs SSO with our Azure AD on day one, not phase two.
-2. We'd like the vendor dashboard, but role-based access is a hard requirement — finance shouldn't see HR records.
-3. Can you still hit the March 15 go-live if SSO moves up?
-
-Also, our security team will want a short data-flow note. Can you send one this week?
-
-Thanks,
-Priya`;
-
-const SAMPLE_ARTICLE =
-`OpenAI's GPT-5.5 model, released in June 2026, introduces a new "thinking budget" mechanism that lets
-developers cap how much reasoning compute the model spends per request. Unlike its predecessors, GPT-5.5
-dynamically adjusts chain-of-thought depth based on query complexity, reducing latency by up to 40% on
-routine tasks while preserving accuracy on hard reasoning benchmarks.
-
-Key highlights:
-- Context window expanded to 512k tokens
-- Native multimodal input: text, images, PDFs, and audio
-- Improved instruction-following on long-form structured output
-- On-device fine-tuning API for enterprise customers (limited preview)
-
-The model scores 92.3 on MMLU-Pro and 87.1 on HumanEval, placing it ahead of previous frontier models
-on most academic benchmarks. Pricing is set at $2.50 per million input tokens and $10 per million output
-tokens — a 20% reduction from GPT-5.4.`;
 
 function setAction(action) {
   state.action = action;
@@ -571,4 +572,3 @@ async function copyResult() {
   }
 }
 
-const wait = (ms) => new Promise((r) => setTimeout(r, ms));
